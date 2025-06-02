@@ -79,7 +79,7 @@ const SignUpForm = () => {
         disabled={isPending}
         onProcess="Signing up..."
         isLoading={isPending}
-        className="bg-yellow-200"
+        className="bg-green-200"
       >
         Sign Up
       </Button>

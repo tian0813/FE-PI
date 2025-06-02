@@ -18,7 +18,7 @@ const Header = () => {
     <div className='relative z-50'>
       <div className='flex gap-3 items-center'>
         <div className='p-3 bg-yellow-200 w-fit border-2 rounded-t-xl shadow-[3px_3px_0px_black] '>
-          <h3 className='font-bold text-lg'>Notes</h3>
+          <h3 className='font-bold text-lg'>Complaints</h3>
         </div>
         <CirclePlus
           size={40}

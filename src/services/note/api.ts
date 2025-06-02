@@ -8,8 +8,14 @@ const getNoteById = () => {};
 
 const deleteNote = async () => {};
 
-const createNote = (payload: NoteDTO) => {
-  return apiResolver<Response<Note>>(() => axios.post("/notes", payload));
+const createNote = (payload: FormData) => {
+  return apiResolver<Response<Note>>(() =>
+    axios.post("/complaints", payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+  );
 };
 
 const editNote = () => {};

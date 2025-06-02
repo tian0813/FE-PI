@@ -1,12 +1,20 @@
 export type NoteDTO = {
-  title: string;
-  content: string;
+  // title: string;
+  // content: string;
+  location: string;
+  description: string;
+  photo: File;
+  // status: boolean;
 };
 
 export type Note = {
   id: string;
-  title: string;
-  content: string;
+  // title: string;
+  // content: string;
+  location: string;
+  description: string;
+  photo: string;
+  status: boolean;
   createdAt: string;
 };
 
