@@ -3,8 +3,8 @@ export type NoteDTO = {
   // content: string;
   location: string;
   description: string;
-  photo: File;
-  // status: boolean;
+  photo?: File;
+  status: boolean;
 };
 
 export type Note = {

@@ -1,20 +1,40 @@
 import z from "zod";
 
-export const noteFormSchema = z.object({
+export const createNoteSchema = z.object({
   location: z
     .string()
-    .min(1, "Title is required")
+    .min(1, "Location is required")
+    .max(100, "Location can't be more than 100 characters"),
+  description: z
+    .string()
+    .min(10, "Description must be at least 10 characters long")
+    .max(500, "Description can't be more than 500 characters"),
+  photo: z
+    .any()
+    .refine((file) => file instanceof FileList && file.length > 0, {
+      message: "Photo is required",
+    })
+    .refine((file) => file instanceof FileList && file[0].size < 5_000_000, {
+      message: "File size must be less than 5MB",
+    }),
+});
+
+export type CreateFormType = z.infer<typeof createNoteSchema>;
+
+export const editNoteSchema = z.object({
+  location: z
+    .string()
+    .min(1, "Location is required")
     .max(100, "Title can't be more than 100 characters"),
   description: z
     .string()
-    .min(1, "Content must be at least 10 characters long")
+    .min(10, "Description must be at least 10 characters long")
     .max(500, "Content can't be more than 500 characters"),
-  photo: z
-    .instanceof(File, { message: "Photo is required" })
-    .refine((file) => file.size > 0, { message: "Photo is required" }),
+  status: z.enum(["pending", "complete"]),
+  photo: z.any().optional(),
 });
 
-export type NoteFormType = z.infer<typeof noteFormSchema>;
+export type EditNoteFormType = z.infer<typeof editNoteSchema>;
 
 export const signInFormSchema = z.object({
   email: z.string().email(),

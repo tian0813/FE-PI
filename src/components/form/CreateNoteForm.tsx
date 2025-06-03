@@ -1,6 +1,6 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { InputField } from "../ui/InputField";
-import { noteFormSchema, NoteFormType } from "../../lib/schema";
+import { createNoteSchema, CreateFormType } from "../../lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "../ui/Button";
 import { useCreateNote } from "../../services/note/mutations/use-create-note";
@@ -9,25 +9,26 @@ import Show from "../show";
 const CreateNoteForm = () => {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
     reset,
-    setValue,
-  } = useForm<NoteFormType>({
-    resolver: zodResolver(noteFormSchema),
+  } = useForm<CreateFormType>({
+    resolver: zodResolver(createNoteSchema),
   });
 
   const { mutate, isPending, isError, error } = useCreateNote();
 
-  const onsubmit = (formData: NoteFormType) => {
+  const onsubmit = (formData: CreateFormType) => {
     const data = new FormData();
     data.append("location", formData.location);
     data.append("description", formData.description);
-    data.append("photo", formData.photo); // ✅ File sudah benar
+    data.append("photo", formData.photo[0]);
 
     mutate(data, {
       onSuccess: (data) => {
         if (data.success) {
+          alert("Succesfully create complaint!");
           reset();
         }
       },
@@ -52,21 +53,26 @@ const CreateNoteForm = () => {
           register={register}
           errors={errors}
         />
-
-        <label className="text-sm font-medium text-gray-700">Photo</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (file) {
-              setValue("photo", file, { shouldValidate: true });
-            }
-          }}
+        <Controller
+          name="photo"
+          control={control}
+          render={({ field }) => (
+            <div>
+              <label className="font-medium text-sm">Photo</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => field.onChange(e.target.files)}
+                className="block w-full text-sm text-gray-700 bg-white border border-gray-300 rounded-md"
+              />
+            </div>
+          )}
         />
 
-        {errors.photo && (
-          <span className="text-red-500 text-sm">{errors.photo.message}</span>
+        {errors.photo?.message && (
+          <span className="text-red-500 text-sm">
+            {errors.photo.message.toString()}
+          </span>
         )}
 
         <Show when={isError}>
