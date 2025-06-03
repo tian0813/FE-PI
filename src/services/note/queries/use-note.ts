@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getNoteById, getNotes } from "../api";
+import { userGetNoteById, userGetNotes } from "../api";
 import { useSearchParams } from "react-router-dom";
 
 export function useNote(id?: string) {
@@ -9,13 +9,13 @@ export function useNote(id?: string) {
 
   if (id) {
     return useQuery({
-    queryFn: () => getNoteById(id),
+    queryFn: () => userGetNoteById(id),
     queryKey: ["notes", id],
   });
   }
 
   return useQuery({
-    queryFn: () => getNotes(page),
+    queryFn: () => userGetNotes(page),
     queryKey: ["notes", page],
   });
 }

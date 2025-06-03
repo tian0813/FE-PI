@@ -2,7 +2,7 @@ import { apiResolver } from "../../utils/api";
 import axios from "../axios";
 import { Note, NoteDTO, Response } from "./types";
 
-const getNotes = (page?: string) => {
+const userGetNotes = (page?: string) => {
   return apiResolver<Response<Note[]>>(() =>
     axios.get("/complaints", {
       params: {
@@ -12,15 +12,15 @@ const getNotes = (page?: string) => {
   );
 };
 
-const getNoteById = (id: string) => {
+const userGetNoteById = (id: string) => {
   return apiResolver<Response<Note>>(() => axios.get(`/complaints/${id}`));
 };
 
-const deleteNote = async (id: string) => {
+const userDeleteNote = async (id: string) => {
   return apiResolver<Response<Note>>(() => axios.patch(`/complaints/${id}`));
 };
 
-const createNote = (payload: FormData) => {
+const userCreateNote = (payload: FormData) => {
   return apiResolver<Response<Note>>(() =>
     axios.post("/complaints", payload, {
       headers: {
@@ -30,7 +30,7 @@ const createNote = (payload: FormData) => {
   );
 };
 
-const editNote = ({
+const userEditNote = ({
   id,
   payload,
 }: {
@@ -46,4 +46,4 @@ const editNote = ({
   );
 };
 
-export { getNotes, deleteNote, createNote, editNote, getNoteById };
+export { userGetNotes, userDeleteNote, userCreateNote, userEditNote, userGetNoteById };

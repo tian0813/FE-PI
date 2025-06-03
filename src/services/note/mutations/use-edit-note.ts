@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { editNote } from "../api";
+import { userEditNote } from "../api";
 
 export function useEditNote() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: editNote,
+        mutationFn: userEditNote,
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["notes"]

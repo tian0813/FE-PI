@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNote } from "../api";
+import { userCreateNote } from "../api";
 
 export function useCreateNote() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: createNote,
+    mutationFn: userCreateNote,
     onSuccess: () => {
       queryClient.invalidateQueries();
     },
